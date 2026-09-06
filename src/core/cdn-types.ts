@@ -8,7 +8,8 @@ export enum CdnTypes {
   AltCdn = 'AltCdn',
   GitHub = 'GitHub',
 }
-export const defaultOwner = 'the1812'
+// 与构建侧 (webpack/cdn/*) 一致指向自建 fork, 保证切换更新源后仍从 fork 拉取
+export const defaultOwner = 'whymesocooll'
 /** 根据分支名和仓库 owner 检索 CDN 链接 */
 export const cdnRoots: Record<CdnTypes, (branch: string, owner?: string) => string> = {
   jsDelivr: (branch, owner) => meta.compilationInfo.allCdns.jsDelivr.root(branch, owner),

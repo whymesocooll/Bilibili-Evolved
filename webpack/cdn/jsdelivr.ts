@@ -1,6 +1,8 @@
 import { CdnConfig } from './types'
 
-const owner = 'the1812'
+// 与 github.ts 一致指向自建 fork, 避免切换更新源后拉到官方仓库覆盖定制
+// (library 部分是 /npm/ 路径, 与 owner 无关)
+const owner = 'whymesocooll'
 const host = 'cdn.jsdelivr.net'
 export const jsDelivr: CdnConfig = {
   name: 'jsDelivr',

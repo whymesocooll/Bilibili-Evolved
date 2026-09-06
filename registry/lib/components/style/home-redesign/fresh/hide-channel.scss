@@ -1,7 +1,9 @@
 // 频道导航栏: 文档流内为 .bili-header__channel; 滚动/固定状态下 B 站会渲染
-// header-channel-fixed-* 系列的克隆结构, 两类都要隐藏
+// header-channel-fixed-* 系列的克隆结构 (fixed-channel-shim 为其占位元素),
+// 两类都要隐藏
 .bili-header__channel,
 .home-header__channel,
+.fixed-channel-shim,
 [class*='header-channel-fixed'] {
   display: none !important;
 }

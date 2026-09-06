@@ -127,10 +127,11 @@ export default Vue.extend({
     scroll-snap-type: x mandatory;
   }
 
-  // 两列纵向网格布局, 用于标签页内容
+  // 纵向网格布局, 用于标签页内容; 按视口宽度切换列数, 避免窄窗口横向溢出
   &.grid {
     --card-width: 600px;
     --card-height: auto;
+    --video-grid-columns: 1;
     width: 100%;
     flex: 1 1 auto;
     &::before,
@@ -139,7 +140,7 @@ export default Vue.extend({
     }
     .fresh-home-video-list-content {
       display: grid;
-      grid-template-columns: repeat(2, var(--card-width));
+      grid-template-columns: repeat(var(--video-grid-columns), var(--card-width));
       justify-content: space-evenly;
       row-gap: 8px;
       min-height: unset;
@@ -152,6 +153,16 @@ export default Vue.extend({
       &:last-child {
         padding-right: 0;
       }
+    }
+    @media screen and (min-width: 1240px) {
+      --video-grid-columns: 2;
+      --card-width: 560px;
+    }
+    @media screen and (min-width: 1440px) {
+      --card-width: 600px;
+    }
+    @media screen and (min-width: 2160px) {
+      --video-grid-columns: 3;
     }
   }
 }
