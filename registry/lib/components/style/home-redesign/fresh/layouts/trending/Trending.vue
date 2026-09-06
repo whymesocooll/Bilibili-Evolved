@@ -8,16 +8,10 @@
         <VButton icon title="刷新" @click="reload">
           <VIcon icon="mdi-refresh" :size="18" />
         </VButton>
-        <VButton icon title="上一页" @click="$refs.videoList.offsetPage(-1)">
-          <VIcon icon="left-arrow" :size="20" />
-        </VButton>
-        <VButton icon title="下一页" @click="$refs.videoList.offsetPage(1)">
-          <VIcon icon="right-arrow" :size="20" />
-        </VButton>
       </div>
     </div>
     <div class="fresh-home-trending-content">
-      <VideoList ref="videoList" :videos="videos" :loading="loading" />
+      <VideoList :videos="videos" :loading="loading" grid />
     </div>
   </div>
 </template>

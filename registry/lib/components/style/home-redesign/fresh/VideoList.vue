@@ -1,7 +1,7 @@
 <template>
   <div
     class="fresh-home-video-list scroll-top scroll-bottom"
-    :class="{ 'not-empty': videos.length > 0 }"
+    :class="{ 'not-empty': videos.length > 0, grid }"
   >
     <div ref="content" class="fresh-home-video-list-content">
       <div v-if="videos.length === 0" class="fresh-home-video-list-empty">
@@ -34,6 +34,10 @@ export default Vue.extend({
       type: Boolean,
       default: true,
     },
+    grid: {
+      type: Boolean,
+      default: false,
+    },
   },
   watch: {
     videos() {
@@ -49,6 +53,9 @@ export default Vue.extend({
     cleanUpScrollMask(this.$el)
   },
   mounted() {
+    if (this.grid) {
+      return
+    }
     const container = this.$refs.content as HTMLElement
     let cancel: () => void
     addComponentListener(
@@ -65,6 +72,9 @@ export default Vue.extend({
   },
   methods: {
     async setupIntersection() {
+      if (this.grid) {
+        return
+      }
       await this.$nextTick()
       setupScrollMask({
         container: this.$el,
@@ -115,6 +125,34 @@ export default Vue.extend({
   }
   &.not-empty &-content {
     scroll-snap-type: x mandatory;
+  }
+
+  // 两列纵向网格布局, 用于标签页内容
+  &.grid {
+    --card-width: 600px;
+    --card-height: auto;
+    width: 100%;
+    flex: 1 1 auto;
+    &::before,
+    &::after {
+      display: none;
+    }
+    .fresh-home-video-list-content {
+      display: grid;
+      grid-template-columns: repeat(2, var(--card-width));
+      justify-content: space-evenly;
+      row-gap: 8px;
+      min-height: unset;
+      scroll-snap-type: none;
+    }
+    .fresh-home-video-card-wrapper {
+      padding: var(--card-padding) 0;
+      padding-left: 0;
+      padding-right: 0;
+      &:last-child {
+        padding-right: 0;
+      }
+    }
   }
 }
 </style>
