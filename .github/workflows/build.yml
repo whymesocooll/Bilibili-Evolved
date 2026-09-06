@@ -6,6 +6,8 @@ on:
       - master
       - master-cdn
       - preview
+permissions:
+  contents: write
 jobs:
   build:
     name: Build
@@ -30,6 +32,11 @@ jobs:
         run: pnpm run lint
       - name: Build core
         run: pnpm run build-core
+      # 本体 @version 平时不变, 油猴靠版本号判断更新; 附加构建号让每次 push 都能被检测到更新
+      - name: Bump userscript version
+        run: |-
+          sed -i -E "s|(// @version[[:space:]]+)([^[:space:]]+)|\1\2.$GITHUB_RUN_NUMBER|" dist/bilibili-evolved.user.js
+          sed -i -E "s|(// @version[[:space:]]+)([^[:space:]]+)|\1\2.$GITHUB_RUN_NUMBER|" dist/bilibili-evolved.preview.user.js
       - name: Build features
         run: |
           cd registry

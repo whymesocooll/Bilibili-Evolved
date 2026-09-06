@@ -1,7 +1,8 @@
 import { jsDelivr } from './jsdelivr'
 import { CdnConfig } from './types'
 
-const owner = 'the1812'
+// 自建分发: 指向自己的 fork, 本体构建出的 @updateURL / @downloadURL 会随之指向 fork 的 master
+const owner = 'whymesocooll'
 const host = 'raw.githubusercontent.com'
 export const github: CdnConfig = {
   name: 'GitHub',
@@ -30,8 +31,9 @@ export const github: CdnConfig = {
     // https://github.com/the1812/Bilibili-Evolved/pull/4521#discussion_r1402084486
     ffmpeg: jsDelivr.library.ffmpeg,
   },
-  smallLogo: `https://${host}/${owner}/Bilibili-Evolved/preview/images/logo-small.png`,
-  logo: `https://${host}/${owner}/Bilibili-Evolved/preview/images/logo.png`,
+  // logo 仍取自官方 preview 分支, fork 上没有这些图片
+  smallLogo: `https://${host}/the1812/Bilibili-Evolved/preview/images/logo-small.png`,
+  logo: `https://${host}/the1812/Bilibili-Evolved/preview/images/logo.png`,
   root: (branch, ownerOverride) =>
     `https://${host}/${ownerOverride || owner}/Bilibili-Evolved/${branch}/`,
 }
