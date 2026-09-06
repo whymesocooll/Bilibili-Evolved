@@ -24,7 +24,6 @@
 <script lang="ts">
 import { VButton, VIcon } from '@/ui'
 import VideoList from '../../VideoList.vue'
-import { freshHomeOptions } from '../../options'
 import { getTrendingVideos } from '../../../trending'
 
 export default Vue.extend({
@@ -32,6 +31,12 @@ export default Vue.extend({
     VButton,
     VIcon,
     VideoList,
+  },
+  props: {
+    personalized: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -41,7 +46,7 @@ export default Vue.extend({
   },
   computed: {
     title() {
-      if (freshHomeOptions.personalized) {
+      if (this.personalized) {
         return '推荐'
       }
       return '热门'
@@ -54,7 +59,7 @@ export default Vue.extend({
     async reload() {
       this.loading = true
       this.videos = []
-      this.videos = await getTrendingVideos(freshHomeOptions.personalized).finally(() => {
+      this.videos = await getTrendingVideos(this.personalized).finally(() => {
         this.loading = false
       })
     },

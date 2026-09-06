@@ -33,5 +33,9 @@ export const component = defineComponentMetadata({
       name: 'fresh-home-hide-original',
       style: () => import('../hide-original.scss'),
     },
+    {
+      name: 'fresh-home-hide-channel',
+      style: () => import('./hide-channel.scss'),
+    },
   ],
 })
