@@ -8,7 +8,14 @@
         <VLoading v-if="loading" />
         <VEmpty v-else />
       </div>
-      <VideoCardWrapper v-for="video of videos" v-else ref="cards" :key="video.id" :data="video" />
+      <VideoCardWrapper
+        v-for="video of videos"
+        v-else
+        ref="cards"
+        :key="video.id"
+        :data="video"
+        :grid="grid"
+      />
     </div>
   </div>
 </template>

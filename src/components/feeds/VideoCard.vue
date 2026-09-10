@@ -10,7 +10,7 @@
     :class="{ vertical: orientation === 'vertical', 'no-stats': !showStats }"
   >
     <div class="cover-container">
-      <DpiImage class="cover" :src="coverUrl" :size="{ height: 120, width: 196 }"></DpiImage>
+      <DpiImage class="cover" :src="coverUrl" :size="coverSize" :sizes="coverSizes"></DpiImage>
       <div v-if="isNew" class="new">NEW</div>
       <template v-if="pubTime && pubTimeText">
         <div class="publish-time-summary">
@@ -157,6 +157,16 @@ export default {
     isNew: {
       type: Boolean,
       default: false,
+    },
+    /** 封面请求的基准尺寸, 需与实际展示宽度匹配, 否则放大会模糊 */
+    coverSize: {
+      type: Object,
+      default: () => ({ height: 120, width: 196 }),
+    },
+    /** 封面的 `sizes` 提示, 帮助浏览器选中合适的 srcset 候选, 避免始终取最大图 */
+    coverSizes: {
+      type: String,
+      default: null,
     },
   },
   data() {
