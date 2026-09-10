@@ -50,11 +50,6 @@ export default Vue.extend({
     videos() {
       this.setupIntersection()
     },
-    loaded() {
-      if (this.loaded) {
-        this.setupIntersection()
-      }
-    },
   },
   beforeDestroy() {
     cleanUpScrollMask(this.$el)
@@ -87,16 +82,6 @@ export default Vue.extend({
         container: this.$el,
         items: this.$refs.cards.map((c: Vue) => c.$el),
       })
-    },
-    offsetPage(offset: number) {
-      const container = this.$refs.content as HTMLElement
-      const style = getComputedStyle(container)
-      const containerWidth = container.clientWidth
-      const wrapperWidth =
-        parseFloat(style.getPropertyValue('--card-width')) +
-        parseFloat(style.getPropertyValue('--card-padding'))
-      const pageWidth = Math.trunc(containerWidth / wrapperWidth) * wrapperWidth
-      container.scrollBy(offset * pageWidth, 0)
     },
   },
 })
@@ -134,11 +119,14 @@ export default Vue.extend({
     scroll-snap-type: x mandatory;
   }
 
-  // 纵向网格布局, 用于标签页内容; 按视口宽度切换列数, 避免窄窗口横向溢出
+  // 纵向网格布局, 用于标签页内容.
+  // 列数按本区域的实际可用宽度决定 (容器查询), 而不是视口宽度:
+  // .fresh-home 还受 maxWidth 选项 (默认 1440px) 限制, 视口再宽它也不会变宽,
+  // 若按视口加列, 固定宽度的列就会顶破容器造成横向溢出.
+  // 本元素即网格的父元素, 其内容宽度正好等于网格可用宽度, 因此查询最准确.
   &.grid {
-    --card-width: 600px;
+    container-type: inline-size;
     --card-height: auto;
-    --video-grid-columns: 1;
     width: 100%;
     flex: 1 1 auto;
     &::before,
@@ -147,6 +135,8 @@ export default Vue.extend({
     }
     .fresh-home-video-list-content {
       display: grid;
+      --card-width: 600px;
+      --video-grid-columns: 1;
       grid-template-columns: repeat(var(--video-grid-columns), var(--card-width));
       justify-content: space-evenly;
       row-gap: 8px;
@@ -161,15 +151,24 @@ export default Vue.extend({
         padding-right: 0;
       }
     }
-    @media screen and (min-width: 1240px) {
-      --video-grid-columns: 2;
-      --card-width: 560px;
+    // 以下每个断点都保证 列数 × 卡片宽度 小于容器宽度, 留出的余量交给 space-evenly 分配,
+    // 因此不会出现横向溢出.
+    @container (min-width: 1150px) {
+      .fresh-home-video-list-content {
+        --video-grid-columns: 2;
+        --card-width: 560px;
+      }
     }
-    @media screen and (min-width: 1440px) {
-      --card-width: 600px;
+    @container (min-width: 1240px) {
+      .fresh-home-video-list-content {
+        --card-width: 600px;
+      }
     }
-    @media screen and (min-width: 2160px) {
-      --video-grid-columns: 3;
+    // 3 列需要 3 × 600px, 只有把 maxWidth 选项调到 1900 以上才可能触发
+    @container (min-width: 1860px) {
+      .fresh-home-video-list-content {
+        --video-grid-columns: 3;
+      }
     }
   }
 }
