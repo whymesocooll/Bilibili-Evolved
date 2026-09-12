@@ -1,6 +1,7 @@
 <template>
   <HomeRedesignBase>
     <div class="fresh-home">
+      <BackToTop />
       <div class="fresh-home-content-layout">
         <FreshLayoutItem v-for="layout of layouts" :key="layout.name" :item="layout" />
       </div>
@@ -9,12 +10,14 @@
 </template>
 <script lang="ts">
 import HomeRedesignBase from '../HomeRedesignBase.vue'
+import BackToTop from './BackToTop.vue'
 import FreshLayoutItem from './FreshLayoutItem.vue'
 import { layouts } from './layouts/layouts'
 
 export default Vue.extend({
   components: {
     HomeRedesignBase,
+    BackToTop,
     FreshLayoutItem,
   },
   data() {
