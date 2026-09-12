@@ -100,5 +100,17 @@ export default Vue.extend({
     flex-wrap: wrap;
     gap: 8px 16px;
   }
+  // 视频版块底部的"加载下一页"哨兵: 进入视口时自动加载, 同时也是加载中/到底/失败的状态显示
+  &-load-more {
+    @include v-center();
+    min-height: 52px;
+    color: var(--home-color);
+    &-end {
+      @include semi-bold();
+      font-size: 13px;
+      opacity: 0.4;
+      user-select: none;
+    }
+  }
 }
 </style>
