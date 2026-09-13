@@ -1,28 +1,31 @@
 <template>
   <div
     class="fresh-home-video-list scroll-top scroll-bottom"
-    :class="{ 'not-empty': videos.length > 0, grid }"
+    :class="{ 'not-empty': visibleVideos.length > 0, grid }"
   >
     <div ref="content" class="fresh-home-video-list-content">
-      <div v-if="videos.length === 0" class="fresh-home-video-list-empty">
+      <div v-if="visibleVideos.length === 0" class="fresh-home-video-list-empty">
         <VLoading v-if="loading" />
         <VEmpty v-else />
       </div>
       <VideoCardWrapper
-        v-for="video of videos"
+        v-for="video of visibleVideos"
         v-else
         ref="cards"
         :key="video.id"
         :data="video"
         :grid="grid"
+        @not-interested="hideVideo"
+        @block-up="hideUp"
       />
     </div>
   </div>
 </template>
 <script lang="ts">
-import { VEmpty, VLoading } from '@/ui'
+import { VideoCard } from '@/components/feeds/video-card'
 import { enableHorizontalScroll } from '@/core/horizontal-scroll'
 import { addComponentListener } from '@/core/settings'
+import { VEmpty, VLoading } from '@/ui'
 import VideoCardWrapper from './VideoCardWrapper.vue'
 import { setupScrollMask, cleanUpScrollMask } from './scroll-mask'
 
@@ -44,6 +47,23 @@ export default Vue.extend({
     grid: {
       type: Boolean,
       default: false,
+    },
+  },
+  data() {
+    return {
+      /** 点了"不感兴趣"的视频 id */
+      hiddenVideoIds: [] as string[],
+      /** 已拉黑的 UP 主 id, 其视频不再展示 */
+      hiddenUpIDs: [] as number[],
+    }
+  },
+  computed: {
+    visibleVideos() {
+      const hiddenVideos = new Set(this.hiddenVideoIds)
+      const hiddenUps = new Set(this.hiddenUpIDs)
+      return (this.videos as VideoCard[]).filter(
+        it => !hiddenVideos.has(it.id) && !(it.upID && hiddenUps.has(it.upID)),
+      )
     },
   },
   watch: {
@@ -73,6 +93,12 @@ export default Vue.extend({
     )
   },
   methods: {
+    hideVideo(video: VideoCard) {
+      this.hiddenVideoIds.push(video.id)
+    },
+    hideUp(upID: number) {
+      this.hiddenUpIDs.push(upID)
+    },
     async setupIntersection() {
       if (this.grid) {
         return

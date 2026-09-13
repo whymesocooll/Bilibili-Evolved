@@ -1,0 +1,60 @@
+// 评论区主题色适配, 移植自 BewlyCat adaptedStyles/common/comments.scss + shadowDom/comments.scss.
+// 视频页评论区是 Shadow DOM 组件, 能从外部干净注入的是自定义属性:
+//   - 评论富文本链接的主题色 (Bilibili Evolved 未设置, 是真正的增量)
+//   - 评论标签/背景色
+// 点赞/踩图标等位于 Shadow DOM 内部, 外部无法直接染主题色; 深色模式的背景与文字由
+// Bilibili Evolved 自带的暗色主题负责, 这里不重复覆盖, 避免冲突.
+
+// 评论富文本链接色 (自定义属性会穿透 Shadow DOM 冒泡到 bili-rich-text)
+.bili-comment.browser-pc,
+.comment-detail,
+#comment-app,
+.bpx-player-comment {
+  --bili-rich-text-link-color: var(--theme-color);
+  --bili-rich-text-link-color-hover: var(--theme-color-80);
+}
+
+// 评论区常用链接 (投票 / 跳转 / 抽奖)
+.reply-operation .operation-icon:hover,
+.bb-comment .comment-list .list-item .text .vote-link,
+.bb-comment .comment-list .list-item .text .lottery-link,
+.bb-comment .comment-list .list-item .text .comment-jump-url,
+.comment-bilibili-fold .comment-list .list-item .text .vote-link,
+.comment-bilibili-fold .comment-list .list-item .text .lottery-link,
+.comment-bilibili-fold .comment-list .list-item .text .comment-jump-url {
+  color: var(--theme-color);
+}
+
+// 评论提交按钮
+.bb-comment .comment-send .comment-submit,
+.comment-bilibili-fold .comment-send .comment-submit,
+.bb-comment .comment-send-lite .comment-submit,
+.comment-bilibili-fold .comment-send-lite .comment-submit,
+.bb-comment .stick.assist,
+.comment-bilibili-fold .stick.assist,
+.bb-comment .stick.up,
+.comment-bilibili-fold .stick.up {
+  background-color: var(--theme-color);
+}
+.bb-comment .comment-send .comment-submit:hover,
+.comment-bilibili-fold .comment-send .comment-submit:hover,
+.bb-comment .comment-send-lite .comment-submit:hover,
+.comment-bilibili-fold .comment-send-lite .comment-submit:hover {
+  background-color: var(--theme-color-80);
+}
+
+// 评论区 tab / 用户名 / 操作悬停, 回复框聚焦边框
+.bb-comment .comment-header .tabs-order li:hover,
+.comment-bilibili-fold .comment-header .tabs-order li:hover,
+.bb-comment .comment-list .list-item .user .name:hover,
+.comment-bilibili-fold .comment-list .list-item .user .name:hover,
+.bb-comment .comment-list .list-item .info .btn-hover:hover,
+.comment-bilibili-fold .comment-list .list-item .info .btn-hover:hover,
+.bb-comment .comment-header .tabs-order li.on,
+.comment-bilibili-fold .comment-header .tabs-order li.on {
+  color: var(--theme-color);
+}
+.reply-box .box-normal .reply-box-warp.focus-within,
+.reply-box .box-normal .reply-box-warp:hover {
+  border-color: var(--theme-color);
+}

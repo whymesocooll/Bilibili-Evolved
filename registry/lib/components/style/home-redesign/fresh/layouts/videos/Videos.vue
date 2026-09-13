@@ -53,6 +53,13 @@ export default Vue.extend({
       min-width: 0;
       max-width: 100%;
     }
+    // 视频内容随页面整体滚动. 默认的 .default-content 是 overflow:auto + max-height:100% +
+    // overscroll-behavior:contain, 会把滚轮困在卡片区内部, 导致只有鼠标贴到页边才能上下滚动.
+    .default-content {
+      overflow: visible;
+      max-height: none;
+      overscroll-behavior: auto;
+    }
 
     // 只作用于本 TabControl 自己的页签栏. 全部走子选择器 `>`,
     // 以免影响到嵌套在内容里的其它 tab (例如"动态"里的 视频/番剧 子标签).

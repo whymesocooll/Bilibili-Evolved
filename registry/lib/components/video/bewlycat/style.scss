@@ -1,0 +1,6 @@
+// 播放器主题适配, 移植自 BewlyCat adaptedStyles/common/videoPlayer.scss.
+// 让播放器 toast 的交互色跟随 Bilibili Evolved 的主题色.
+.bpx-player-toast-row .bpx-player-toast-item {
+  --bpx-toast-fn-color: var(--theme-color);
+  --bpx-toast-fn-hover-color: var(--theme-color-80);
+}

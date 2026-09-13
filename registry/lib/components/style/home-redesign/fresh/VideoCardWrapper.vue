@@ -1,21 +1,29 @@
 <template>
   <div class="fresh-home-video-card-wrapper">
     <VideoCard
-      v-bind="$attrs"
       orientation="vertical"
+      :data="data"
       :cover-size="coverSize"
       :cover-sizes="coverSizes"
     />
+    <VideoCardMenu :data="data" @not-interested="emitNotInterested" @block-up="emitBlockUp" />
   </div>
 </template>
 <script lang="ts">
 import VideoCard from '@/components/feeds/VideoCard.vue'
+import { VideoCard as VideoCardData } from '@/components/feeds/video-card'
+import VideoCardMenu from './VideoCardMenu.vue'
 
 export default Vue.extend({
   components: {
     VideoCard,
+    VideoCardMenu,
   },
   props: {
+    data: {
+      type: Object as () => VideoCardData,
+      required: true,
+    },
     grid: {
       type: Boolean,
       default: false,
@@ -37,6 +45,14 @@ export default Vue.extend({
       return null
     },
   },
+  methods: {
+    emitNotInterested(video: VideoCardData) {
+      this.$emit('not-interested', video)
+    },
+    emitBlockUp(upID: number) {
+      this.$emit('block-up', upID)
+    },
+  },
 })
 </script>
 <style lang="scss">
@@ -44,6 +60,7 @@ export default Vue.extend({
   --padding: var(--card-padding, 12px);
   padding: var(--padding) 0;
   padding-left: var(--padding);
+  position: relative;
   scroll-snap-align: start;
   &:last-child {
     padding-right: var(--padding);
