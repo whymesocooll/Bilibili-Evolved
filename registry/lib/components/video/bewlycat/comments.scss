@@ -14,6 +14,12 @@
   --bili-rich-text-link-color-hover: var(--theme-color-80);
 }
 
+// 评论区字体大小 (由「评论区字体大小」选项控制; font-size 是继承属性, 会传入评论组件 Shadow DOM)
+.bili-comment.browser-pc,
+#comment-app {
+  font-size: var(--bewlycat-comment-font-size, 14px);
+}
+
 // 评论区常用链接 (投票 / 跳转 / 抽奖)
 .reply-operation .operation-icon:hover,
 .bb-comment .comment-list .list-item .text .vote-link,
